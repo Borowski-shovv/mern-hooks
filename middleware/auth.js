@@ -10,7 +10,7 @@ const auth = (req, res, next) => {
             return res.status(401).json({msg: "No authentication token, authorization denied."})
         }
 
-        // weryfikacja tokenu, zeby sprawdzić id zalogowanego uzytkownika się zgadza
+        // weryfikacja tokenu, zeby sprawdzić czy id zalogowanego uzytkownika się zgadza
         const verifiedToken = jwt.verify(token, process.env.JWT_SECRET)
 
         if(!verifiedToken) {

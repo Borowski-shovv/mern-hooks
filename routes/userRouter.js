@@ -78,7 +78,7 @@ router.post("/login", async (req, res) => {
 })
 
 // drugi argument auth to middleware, ktory sprawdza uwierzytelnienie uzytkownika przed pojsciem dalej
-router.delete('/delete', auth, async (req, res) => {
+router.delete("/delete", auth, async (req, res) => {
    console.log(req.user)
    try {
         const deletedUser = await User.findByIdAndDelete(req.user);
@@ -103,6 +103,15 @@ router.post("/tokenIsValid", async (req, res) => {
     } catch(err) {
         res.status(500).json({ error: err.message});
     }
+})
+
+//wysylanie danych usera, ktory się zalogował
+router.get("/", auth, async (req,res) => {
+    const user = await User.findById(req.user);
+    res.json({
+        displayName: user.name,
+        id: user._id
+    })
 })
 
 
