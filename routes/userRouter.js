@@ -11,15 +11,15 @@ router.post("/register", async (req, res) => {
         
         //validate
         if(!userEmail || !password || !passwordCheck || !name) 
-            return res.status(400).json({msg: "Uzupełnij wszystkie pola"});
+            return res.status(400).json({msg: "Uzupełnij wszystkie pola."});
         if(password.length < 5) 
-            return res.status(400).json({msg: "Hasło musi zawierać conajmniej 5 znaków"});   
+            return res.status(400).json({msg: "Hasło musi zawierać conajmniej 5 znaków."});   
         if(password !== passwordCheck) 
-            return res.status(400).json({msg: "Wpisane hasła nie są takie same"});
+            return res.status(400).json({msg: "Wpisane hasła nie są takie same."});
 
         const existingUser = await User.findOne({ email: userEmail});
         if(existingUser) {
-            return res.status(400).json({msg: "Konto o podanym emailu już istnieje"});
+            return res.status(400).json({msg: "Konto o podanym emailu już istnieje."});
         };
 
         // Hash password before saving in database
@@ -48,17 +48,17 @@ router.post("/login", async (req, res) => {
         const { userEmail, password } = req.body;
 
         if( !userEmail || !password) 
-            return res.status(400).json({msg: "Uzupełnij wszystkie pola"});
+            return res.status(400).json({msg: "Uzupełnij wszystkie pola."});
         
 
         const user = await User.findOne({email: userEmail}) 
 
         if(!user)
-            return res.status(400).json({msg: "Użytkownik o podanym emailu nie istnieje"});
+            return res.status(400).json({msg: "Użytkownik o podanym emailu nie istnieje."});
 
         //porównanie hasła
         const isMatch = await bcrypt.compare(password, user.password);
-        if(!isMatch) return res.status(400).json({ msg: "Podane hasło jest nieprawidłowe"})
+        if(!isMatch) return res.status(400).json({ msg: "Podane hasło jest nieprawidłowe."})
     
         const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET);
 
@@ -109,7 +109,7 @@ router.post("/tokenIsValid", async (req, res) => {
 router.get("/", auth, async (req,res) => {
     const user = await User.findById(req.user);
     res.json({
-        displayName: user.name,
+        name: user.name,
         id: user._id
     })
 })
