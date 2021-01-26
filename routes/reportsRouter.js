@@ -30,22 +30,15 @@ router.get("/:id", async (req, res) => {
 
 router.get("/:id/:date", async (req, res) => {
     console.log(req.params.date);
+    console.log(req.params.id);
     try {
-        res.json('ok!')
-     
+        const specificReport = await Report.find({projectID: req.params.id, date: '2021-01-01T14:22:19.509Z'});
+        res.json(specificReport)
+        console.log(specificReport)
     } catch(err) {
         res.status(500).json({error: err.message});
     }
-
-    // try {
-    //     const projectReports = await Report.find({projectID: req.params.id})
-    //     res.json(projectReports)
-    // } catch(err) {
-    //     res.status(500).json({error: err.message});
-    // }
 })
-
-
 
 // router.get('/', async (req, res) => {
 //     try {
